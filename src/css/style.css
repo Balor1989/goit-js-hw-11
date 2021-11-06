@@ -1,0 +1,18 @@
+.search-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+}
+.serch-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  height: 30px;
+}
+.search-icon {
+  fill: black;
+  width: 20px;
+  height: 30px;
+}
