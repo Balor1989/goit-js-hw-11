@@ -1,4 +1,4 @@
-.search-box {
+.search-form {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -9,10 +9,11 @@
   align-items: center;
   justify-content: center;
   margin-left: 10px;
-  height: 30px;
+  height: 21px;
 }
 .search-icon {
+  margin-left: 5px;
   fill: black;
-  width: 20px;
-  height: 30px;
+  width: 15px;
+  height: 15px;
 }
