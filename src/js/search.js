@@ -1,6 +1,6 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { Loading } from 'notiflix/build/notiflix-loading-aio';
 import galleryCardsTpl from '../templates/gallery-card.hbs'
-const axios = require('axios');
 const API_KEY = '23825879-78d35eabdb1bf9c22a9a5e768';
 const imagesPerPage = 40
 
@@ -19,18 +19,20 @@ const refs = {
 
 const onSearchSubmit = (e) => {
     e.preventDefault()
+    refs.galleryOfImages.innerHTML = ''
     refs.pageNumber = 1
     refs.totalQuantityOfImages = 0
     refs.search = refs.searchValue.value
-    refs.loadMoreButton.classList.remove('is-hidden')
     console.log(refs.search)
     getImages()
+    refs.loadMoreButton.classList.remove('is-hidden')
     
 }
 
 const onLoadMoreImages = () => {
     refs.pageNumber += 1
     getImages()
+  
     
 }
 
@@ -41,8 +43,8 @@ refs.loadMoreButton.addEventListener('click',onLoadMoreImages)
 
 
 function getImages() {
-
-    fetch(`https://pixabay.com/api/?key=${API_KEY}&q=${refs.search}&image_type=photo&orientation=horizontal&safesearch=true&page=${refs.pageNumber}&per_page=${imagesPerPage}`)
+   Loading.pulse();
+   fetch(`https://pixabay.com/api/?key=${API_KEY}&q=${refs.search}&image_type=photo&orientation=horizontal&safesearch=true&page=${refs.pageNumber}&per_page=${imagesPerPage}`)
         .then(response => {
             return response.json()
             
@@ -65,16 +67,17 @@ function getImages() {
                 }
 
             
-            console.log(refs.totalHits)
-            console.log(images)
-            refs.galleryOfImages.innerHTML = images.hits.map(galleryCardsTpl).join('')
+            const markup = images.hits.map(galleryCardsTpl).join('')
+            refs.galleryOfImages.insertAdjacentHTML('beforeend', markup)
             refs.totalQuantityOfImages += imagesPerPage
         })
 
     .catch(error => {
-    console.log(error)})
+        console.log(error)
+    })
+    Loading.remove()
 }
-    // getImages()
+  
 
 
 
