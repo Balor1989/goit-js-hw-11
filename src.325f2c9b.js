@@ -77,4 +77,4 @@ module.exports=require("./lib/axios");
 },{}],"Focm":[function(require,module,exports) {
 "use strict";require("../src/js/search.js"),require("normalize.css"),require("../src/css/style.css");
 },{"../src/js/search.js":"HU2o","normalize.css":"DOAq","../src/css/style.css":"DOAq"}]},{},["Focm"], null)
-//# sourceMappingURL=/goit-js-hw-11/src.93f1e44c.js.map
+//# sourceMappingURL=/goit-js-hw-11/src.325f2c9b.js.map
