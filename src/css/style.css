@@ -1,5 +1,5 @@
-body {
-  max-width: 1980px;
+.is-hidden {
+  opacity: 0;
 }
 .search-form {
   display: inline-flex;
