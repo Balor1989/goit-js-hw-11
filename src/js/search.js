@@ -19,7 +19,6 @@ const onSearchSubmit = (e) => {
     refs.search = refs.searchValue.value
     console.log(refs.search)
     getImages()
-    return
 }
 
 
