@@ -1,10 +1,13 @@
+body {
+  max-width: 1980px;
+}
 .search-form {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   height: 30px;
 }
-.serch-button {
+.search-button {
   display: flex;
   align-items: center;
   justify-content: center;
