@@ -43,7 +43,7 @@ refs.loadMoreButton.addEventListener('click',onLoadMoreImages)
 
 
 function getImages() {
-   Loading.pulse();
+   Loading.dots();
    fetch(`https://pixabay.com/api/?key=${API_KEY}&q=${refs.search}&image_type=photo&orientation=horizontal&safesearch=true&page=${refs.pageNumber}&per_page=${imagesPerPage}`)
         .then(response => {
             return response.json()
