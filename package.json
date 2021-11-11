@@ -28,10 +28,12 @@
     "parcel-plugin-svg-sprite": "^1.4.1",
     "postcss-normalize": "^10.0.1",
     "posthtml-include": "^1.6.2",
-    "sass": "^1.32.8"
+    "sass": "^1.32.8",
+    "simplelightbox": "^2.9.0"
   },
   "dependencies": {
     "normalize.css": "^8.0.1",
-    "src": "^1.1.2"
+    "src": "^1.1.2",
+    "vanilla-back-to-top": "^7.2.1"
   }
 }

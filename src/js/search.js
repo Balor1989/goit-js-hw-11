@@ -1,8 +1,24 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { Loading } from 'notiflix/build/notiflix-loading-aio';
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 import galleryCardsTpl from '../templates/gallery-card.hbs'
+import { addBackToTop } from 'vanilla-back-to-top'
+
+addBackToTop({
+    backgroundColor: '#dfdfdf',
+    showWhenScrollTopIs: 500,
+    scrollDuration: 1000,
+    textColor: '#000',
+    zIndex: 1
+})
+
 const API_KEY = '23825879-78d35eabdb1bf9c22a9a5e768';
 const imagesPerPage = 40
+
+  
+
+
 
 const refs = {
     search: null,
@@ -13,7 +29,8 @@ const refs = {
     searchValue: document.querySelector('[name="searchQuery"]'),
     galleryOfImages: document.querySelector('.gallery'),
     submitButton: document.querySelector('.search-button'),
-    loadMoreButton: document.querySelector('.load-more')
+    loadMoreButton: document.querySelector('.load-more'),
+    backToTopBtn: document.querySelector('.back-top')
 }
 
 
@@ -25,8 +42,6 @@ const onSearchSubmit = (e) => {
     refs.search = refs.searchValue.value
     console.log(refs.search)
     getImages()
-    refs.loadMoreButton.classList.remove('is-hidden')
-    
 }
 
 const onLoadMoreImages = () => {
@@ -36,47 +51,68 @@ const onLoadMoreImages = () => {
     
 }
 
+const onBackToTop = (e => {
+    e.preventDefault()
+    console.log('click')
+// const { height: cardHeight } = document.querySelector(".gallery").firstElementChild.getBoundingClientRect();
+
+window.scrollBy({
+  top: 0,
+  behavior: "smooth",
+});
+})
+
+
 refs.form.addEventListener('submit', onSearchSubmit)
-refs.loadMoreButton.addEventListener('click',onLoadMoreImages)
+refs.loadMoreButton.addEventListener('click', onLoadMoreImages)
+refs. backToTopBtn.addEventListener('click', onBackToTop)
 
 
 
 
-function getImages() {
-   Loading.dots();
-   fetch(`https://pixabay.com/api/?key=${API_KEY}&q=${refs.search}&image_type=photo&orientation=horizontal&safesearch=true&page=${refs.pageNumber}&per_page=${imagesPerPage}`)
-        .then(response => {
-            return response.json()
-            
-        })
-
-        .then(images => {
-            if (refs.totalQuantityOfImages > images.totalHits) {
-                Notify.failure("We're sorry, but you've reached the end of search results.")
-                refs.loadMoreButton.classList.add('is-hidden')
-                return;
-            }
+async function getImages() {
+    try {
+        Loading.dots();
+        const response = await fetch(`https://pixabay.com/api/?key=${API_KEY}&q=${refs.search}&image_type=photo&orientation=horizontal&safesearch=true&page=${refs.pageNumber}&per_page=${imagesPerPage}`)
+        const images = await response.json()
+       
+        if (refs.totalQuantityOfImages > images.totalHits) {
+            Notify.failure("We're sorry, but you've reached the end of search results.")
+            refs.loadMoreButton.classList.add('is-hidden')
+            Loading.remove()
+            return;
+        }
                 
-            if (images.hits.length === 0) {
-                Notify.failure('Sorry, there are no images matching your search query. Please try again.');
-                return
-            }
-            refs.totalHits = images.totalHits
-            if (refs.pageNumber === 1)
-            {Notify.success(`Hooray! We found ${refs.totalHits} images.`);
-                }
+        if (images.hits.length === 0) {
+            Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+            refs.loadMoreButton.classList.add('is-hidden')
+            Loading.remove()
+            return
+        }
+        refs.totalHits = images.totalHits
+        if (refs.pageNumber === 1) {
+            Notify.success(`Hooray! We found ${refs.totalHits} images.`);
+        }
 
-            
-            const markup = images.hits.map(galleryCardsTpl).join('')
-            refs.galleryOfImages.insertAdjacentHTML('beforeend', markup)
-            refs.totalQuantityOfImages += imagesPerPage
-        })
+    
+        const markup = images.hits.map(galleryCardsTpl).join('')
+        refs.galleryOfImages.insertAdjacentHTML('beforeend', markup)
+        lightbox.refresh();
+        refs.loadMoreButton.classList.remove('is-hidden')
+        refs.totalQuantityOfImages += imagesPerPage
+        Loading.remove()
+    } catch (error) {
+    console.log(error.message);
+  }
+        }
 
-    .catch(error => {
-        console.log(error)
-    })
-    Loading.remove()
-}
+    
+ const lightbox = new SimpleLightbox('.gallery a', {
+   disableRightClick: true,
+    scrollZoom: false,
+    captionDelay: 250,
+    captionsData: 'alt', 
+});   
   
 
 
