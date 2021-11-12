@@ -30,6 +30,7 @@ const refs = {
 }
 
 
+
 const onSearchSubmit = (e) => {
     e.preventDefault()
     refs.galleryOfImages.innerHTML = ''
@@ -42,7 +43,19 @@ const onSearchSubmit = (e) => {
 
 const onLoadMoreImages = () => {
     refs.pageNumber += 1
-    getImages()
+    getImages();
+    
+    
+}
+const windowScrollByTwoCards = () => {
+    const { height: cardHeight } = document
+  .querySelector(".gallery")
+  .firstElementChild.getBoundingClientRect();
+
+window.scrollBy({
+  top: cardHeight * 2.5,
+  behavior: "smooth",
+});
 }
 
 refs.form.addEventListener('submit', onSearchSubmit)
@@ -72,15 +85,19 @@ async function getImages() {
         refs.totalHits = images.totalHits
         if (refs.pageNumber === 1) {
             Notify.success(`Hooray! We found ${refs.totalHits} images.`);
+            
         }
-
-    
+        
         const markup = images.hits.map(galleryCardsTpl).join('')
         refs.galleryOfImages.insertAdjacentHTML('beforeend', markup)
         lightbox.refresh();
         refs.loadMoreButton.classList.remove('is-hidden')
         refs.totalQuantityOfImages += imagesPerPage
         Loading.remove()
+        if (refs.pageNumber > 1) {
+            windowScrollByTwoCards()
+        }
+        
     } catch (error) {
     console.log(error.message);
   }
