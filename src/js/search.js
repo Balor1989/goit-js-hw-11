@@ -51,7 +51,6 @@ const windowScrollByTwoCards = () => {
     const { height: cardHeight } = document
   .querySelector(".gallery")
   .firstElementChild.getBoundingClientRect();
-
 window.scrollBy({
   top: cardHeight * 2.5,
   behavior: "smooth",
@@ -87,17 +86,22 @@ async function getImages() {
             Notify.success(`Hooray! We found ${refs.totalHits} images.`);
             
         }
+      
+        
         
         const markup = images.hits.map(galleryCardsTpl).join('')
         refs.galleryOfImages.insertAdjacentHTML('beforeend', markup)
         lightbox.refresh();
         refs.loadMoreButton.classList.remove('is-hidden')
         refs.totalQuantityOfImages += imagesPerPage
-        Loading.remove()
-        if (refs.pageNumber > 1) {
-            windowScrollByTwoCards()
-        }
         
+        if (refs.pageNumber > 1) {
+             setTimeout(windowScrollByTwoCards, 800)
+        }
+
+        Loading.remove()
+        
+       
     } catch (error) {
     console.log(error.message);
   }
