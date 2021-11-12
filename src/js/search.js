@@ -6,7 +6,7 @@ import galleryCardsTpl from '../templates/gallery-card.hbs'
 import { addBackToTop } from 'vanilla-back-to-top'
 
 addBackToTop({
-    backgroundColor: '#dfdfdf',
+    backgroundColor: '#e6c1e9',
     showWhenScrollTopIs: 500,
     scrollDuration: 1000,
     textColor: '#000',
@@ -15,9 +15,6 @@ addBackToTop({
 
 const API_KEY = '23825879-78d35eabdb1bf9c22a9a5e768';
 const imagesPerPage = 40
-
-  
-
 
 
 const refs = {
@@ -30,7 +27,6 @@ const refs = {
     galleryOfImages: document.querySelector('.gallery'),
     submitButton: document.querySelector('.search-button'),
     loadMoreButton: document.querySelector('.load-more'),
-    backToTopBtn: document.querySelector('.back-top')
 }
 
 
@@ -47,26 +43,10 @@ const onSearchSubmit = (e) => {
 const onLoadMoreImages = () => {
     refs.pageNumber += 1
     getImages()
-  
-    
 }
-
-const onBackToTop = (e => {
-    e.preventDefault()
-    console.log('click')
-// const { height: cardHeight } = document.querySelector(".gallery").firstElementChild.getBoundingClientRect();
-
-window.scrollBy({
-  top: 0,
-  behavior: "smooth",
-});
-})
-
 
 refs.form.addEventListener('submit', onSearchSubmit)
 refs.loadMoreButton.addEventListener('click', onLoadMoreImages)
-refs. backToTopBtn.addEventListener('click', onBackToTop)
-
 
 
 
